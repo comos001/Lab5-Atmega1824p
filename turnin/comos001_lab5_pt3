@@ -1,0 +1,71 @@
+/*	Author: comos001
+ *  Partner(s) Name: 
+ *	Lab Section:
+ *	Assignment: Lab #  Exercise #
+ *	Exercise Description: [optional - include for your own benefit]
+ *
+ *	I acknowledge all content contained herein, excluding template or example
+ *	code, is my own original work.
+*/
+
+Video Link: https://drive.google.com/open?id=1hqy3aoqtNCsWJ4lp1QAOZjCan9SxMb-9
+
+#include <avr/io.h>
+#ifdef _SIMULATE_
+#include "simAVRHeader.h"
+#endif
+
+enum ID_States {Init, Lights, Wait, reset} State;
+
+        /*initial conditions*/
+
+void ID_switch(){	
+        switch (State) {
+                case Init:
+                        State = Init;
+			if ((PINA & 0x01) == 0x00){
+                                State = Lights;
+                        }
+                        else {
+                                State = Init;
+                        }
+                break;
+                case Lights:
+			PORTC += 2;
+			State = Wait;
+                break;
+                case Wait:
+                        if ((PINA & 0x01) == 0x00){
+                                State = Wait;
+                        }
+                        else if ((PINA & 0x02) == 0x00){
+				State = reset;
+			}
+			else {
+                                State = Init;
+                        }
+		break;
+		case reset:
+			PORTC = 0x00;
+			State = Init;
+                break;
+                default:
+                        State = Init;
+                        break;
+                }
+}
+
+int main(void) {
+    /* Insert DDR and PORT initializations */
+        DDRA = 0x00; PORTA = 0xFF;
+        DDRC = 0xFF; PORTC = 0x00;
+	 /*initial conditions*/
+        State = Init;
+        PORTC = 0x00;
+    /* Insert your solution below */
+    while (1) {
+        ID_switch();
+    }
+
+return 1;
+}

@@ -14,7 +14,7 @@
 #include "simAVRHeader.h"
 #endif
 
-Video link: https://drive.google.com/open?id=14d8I4X2bt2uvclq2livTNLLEKDwWsCsz
+/*Video link: https://drive.google.com/open?id=14d8I4X2bt2uvclq2livTNLLEKDwWsCsz*/
 
 int main(void) {
     /* Insert DDR and PORT initializations */
